@@ -1,0 +1,15 @@
+cloud_user:
+    resource: "@CloudUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+
+ 
+app:
+  resource: "@AppBundle/Controller/"
+  type:     annotation
+
+tuser:
+  resource: "@TUserBundle/Controller/"
+  type:     annotation

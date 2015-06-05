@@ -1,0 +1,15 @@
+Cloud\UserBundle\Entity\Categoria:
+    type: entity
+    table: null
+    repositoryClass: Cloud\UserBundle\Entity\CategoriaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nombre:
+            type: text
+    lifecycleCallbacks: {  }
+

@@ -1,0 +1,18 @@
+Cloud\UserBundle\Entity\Recursos:
+    type: entity
+    table: null
+    repositoryClass: Cloud\UserBundle\Entity\RecursosRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        username:
+            type: string
+            length: 255
+        archivos:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

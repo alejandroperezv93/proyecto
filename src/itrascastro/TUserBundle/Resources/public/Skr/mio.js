@@ -1,0 +1,16 @@
+<script>
+  (function($){
+    $(window).load(function(){
+      $("#vertical-content").mCustomScrollbar({
+        theme:"light-3",
+        scrollButtons:{
+          enable:true
+        }
+      });
+      $("#horizontal-content").mCustomScrollbar({
+        axis:"x",
+        theme:"3d"
+      });
+    });
+  })(jQuery);
+</script>

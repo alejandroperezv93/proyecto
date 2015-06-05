@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{%block header %}
+{% for flashMessage in app.session.flashbag.get('mensaje') %}
+<span class="alert-success">
+    {{ flashMessage }}
+    <hr>
+
+</span>
+{% endfor %}
+<h1>Test Base de datos relacionales</h1>
+<form class="form-signin3" enctype="multipart/form-data" action="{{ path('upload') }}" method="post" novalidate="novalidate">
+   <label class="sr-only" for="example">Submit</label>
+    <input type="file" name="file" class="form-control" id="example" />
+    <hr>
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+
+
+
+
+
+{% endblock %}

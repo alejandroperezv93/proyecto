@@ -1,0 +1,548 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+
+
+
+{% endblock head %}
+{% block navbar %}
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top headroom">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- Button for smallest screens -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span
+                            class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><img src="{{ asset('bundles/tuser/images/logo.png') }}"
+                                                               alt="Progressus HTML5 template"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <form class="form-signin4" method="post">
+                    <ul class="nav solo navbar-nav pull-right">
+                        <li class="active"><a href="#">Inicio</a></li>
+
+                        <li><a href="{{ asset('editar') }}/{{ app.user.id }}">Configuracion</a></li>
+                        <li><a href="momentos.html">Ayuda</a></li>
+
+
+                        <li><a class="btn" href="signin.html">Salir</a></li>
+                        <li>{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <div class="navbar-form navbar-right">
+                                <li><a style="color:White;" class="btn btn-danger" href="#">{{ app.user.username }}</a>
+                                </li>
+                                <li><a style="color:White;" class="btn btn-success"
+                                       href="{{ path('tuser_security_logout') }}">Sign out</a></li>
+
+                            </div>
+                        </li>
+                        {% elseif app.request.get('_route') != 'tuser_security_login' and app.request.get('_route') != 'tuser_register_signup' and app.request.get('_route') != 'tuser_register_dosignup' %}
+                            {% render(controller('TUserBundle:Security:loginHoritzontal')) %}
+                        {% endif %}
+
+
+                    </ul>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock navbar %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block header %}
+
+
+
+
+<ul class="portfolio-items">
+
+
+{% for entity in entities4 %}
+
+
+
+
+   <li class="item">
+    <figure>
+      <div class="view">
+       <img src="{{ ('bundles/tuser/archivo_1.png') }}" />
+      </div>
+
+      <figcaption>
+        <p><span><a href="http://www.vladstudio.com/wallpaper/?thetwoandthebubbles">The Two and The Bubbles</a></span></p>
+        <p><span>By Vlad Gerasimov</span></p>
+      </figcaption>
+    </figure>
+    <div class="date">{{ entity.nombre }}</div>
+  </li>
+
+
+
+
+
+
+
+{% endfor %}
+  <!-- and so forth -->
+</ul>
+
+
+
+    {% for flashMessage in app.session.flashbag.get('mensaje') %}
+        <span class="alert-success">
+    {{ flashMessage }}
+            <hr>
+
+</span>
+    {% endfor %}
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+                <form class="form-signin5" enctype="multipart/form-data" action="{{ path('upload') }}" method="post"
+                      novalidate="novalidate">
+
+                    <ul>
+                        <li>
+                            <!--  ---------------------------------------------------------Agregar Archivo ------------------------------------------------->
+
+
+                            <!-- Trigger the modal with a button -->
+                            <a href="#" class="buton azul" data-toggle="modal" data-target="#myModal"><span
+                                        class="icon-add-to-list">
+
+				</span>Nuevo</a>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                        </div>
+                                        <div class="modal-body">
+
+
+                                            <h1>Subir Archivos</h1>
+                                            <label class="sr-only" for="example">Submit</label>
+                                            <input type="file" name="file" class="form-control" id="example"/>
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </li>
+                        <li id="mis_archivos">
+
+                            <a href="#" class="buton orange "><span class="icon-news">
+
+				</span>Mis archivos</a></li>
+                        <li id="compartido">
+
+                            <a href="#" class="buton orange "><span class="icon-share-alternitive">
+
+				</span>Archivos Compartidos</a></li>
+                        <li id="papelera">
+
+                            <a href="#" class="buton  "><span class="icon-trash">
+
+				</span>papelera</a>
+                        </li>
+
+                    </ul>
+                </form>
+
+            </div>
+
+
+            <div id="archivos" class="col-md-9">
+
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Description</th>
+                        <th>Modificacion</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+
+
+                     {% for entity in entities %}
+                        <tr>
+                            <td>{{ entity.nombre }}</td>
+                            <td>{{ entity.description }}</td>
+                            <td>{{ entity.modificacion }}</td>
+                            <td><button style="color:White;"  class="boton1 btn btn-warning " value="{{ entity.id }}">Favorito</button></td>
+                            <td><a style="color:White;" class="btn btn-danger"
+                                   href="{{ asset('papelera') }}/{{ entity.id }}">Eliminar</a></td>
+                            <td>
+                            <td><a style="color:White;" class="btn btn-info"
+                                   href="{{asset('download')}}/{{ entity.nombre }} ">Descargar</a></td>
+                            <td>
+                                <form class="" action="{{ path('compartirdo') }}" method="post" novalidate="novalidate">
+
+                                    <!-- Trigger the modal with a button -->
+                                    <a class="btn btn-warning " data-toggle="modal"
+                                       data-target="#myModal2">Compartir</a>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal2" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                            data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Compartir</h4>
+                                                </div>
+                                                <div class="modal-body">
+
+
+                                                    <ul class="nav solo navbar-nav pull-right">
+                                                        <li><input class="form-control" placeholder="Username"
+                                                                   type="text" id="username_c" name="username">  </input>
+                                                        </li>
+                                                        <input type="hidden" name="numero" value=" {{ entity.id }}"/>
+                                                        <input type="hidden" name="nom" value=" {{ entity.nombre }}"/>
+
+                                                        <li>
+
+                                                        </li>
+                                                    </ul>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+
+
+                                                            <button class="btn btn-warning "
+                                                                    type="submit">Compartir
+                                                            </button>
+
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+
+                            </td>
+
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+            <div id="archivoscompartidos" class="col-md-9">
+
+ <form class="form-signin5" enctype="multipart/form-data" action="{{ path('compartir') }}" method="post"
+                      novalidate="novalidate">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Description</th>
+                        <th>Modificacion</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+
+
+
+                    {% for entity in entities2 %}
+                        <tr>
+                            <td>{{ entity.id }} </td>
+                            <td> {{ entity.username }} </td>
+                            <td>  {{ entity.nombre }} </td>
+                            <td><a style="color:White;" class="btn btn-danger"
+                                   href="{{ asset('hellwo') }}/{{ entity.id }}">Eliminar</a></td>
+                            <td>
+
+                                <form class="" action="{{ path('compartirdo') }}" method="post" novalidate="novalidate">
+
+                                    <!-- Trigger the modal with a button -->
+                                    <a class="btn btn-warning " data-toggle="modal"
+                                       data-target="#myModal2">Compartir</a>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal2" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                            data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Modal Header</h4>
+                                                </div>
+                                                <div class="modal-body">
+
+
+                                                    <ul class="nav solo navbar-nav pull-right">
+                                                        <li><input class="form-control" placeholder="Username"
+                                                                   type="text" id="username" name="username">  </input>
+                                                        </li>
+                                                        <input type="hidden" name="numero" value=" {{ entity.id }}"/>
+                                                        <input type="hidden" name="nom" value=" {{ entity.nombre }}"/>
+
+                                                        <li>
+                                                            <div class="form-group spaceless">
+                                                                <button class="btn btn-lg btn-primary btn-block "
+                                                                        type="submit">Iniciar Sesión
+                                                                </button>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+
+                            </td>
+
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+</form>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div id="archivoseliminados" class="col-md-9">
+
+ <form class="form-signin5" enctype="multipart/form-data" action="{{ path('compartir') }}" method="post"
+                      novalidate="novalidate">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Description</th>
+                        <th>Modificacion</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+
+
+
+                    {% for entity in entities3 %}
+    <tr>
+        <td>{{ entity.id }} </td>
+        <td> {{ entity.username }} </td>
+        <td>  {{ entity.nombre }} </td>
+
+        <td><a style="color:White;" class="btn btn-danger"
+               href="{{ asset('hellwo') }}/{{ entity.id }}">Eliminar</a></td>
+        <td>
+
+        <td>
+
+            <form class="" action="{{ path('compartirdo') }}" method="post" novalidate="novalidate">
+
+                <!-- Trigger the modal with a button -->
+                <a class="btn btn-warning " data-toggle="modal"
+                   data-target="#myModal2">Compartir</a>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal2" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                            </div>
+                            <div class="modal-body">
+
+
+                                <ul class="nav solo navbar-nav pull-right">
+                                    <li><input class="form-control" placeholder="Username"
+                                               type="text" id="username" name="username">  </input>
+                                    </li>
+                                    <input type="hidden" name="numero" value=" {{ entity.id }}"/>
+                                    <input type="hidden" name="nom" value=" {{ entity.nombre }}"/>
+
+                                    <li>
+                                        <div class="form-group spaceless">
+                                            <button class="btn btn-lg btn-primary btn-block "
+                                                    type="submit">Iniciar Sesión
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </form>
+
+
+        </td>
+
+
+    </tr>
+{% endfor %}
+                    </tbody>
+                </table>
+
+
+
+</form>
+            </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="http://sarasoueidan.com/demos/horizontal-portfolio-layout/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="http://sarasoueidan.com/demos/horizontal-portfolio-layout/js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="http://sarasoueidan.com/demos/horizontal-portfolio-layout/js/scripts.js"></script>
+
+<script type="text/javascript" src="http://sarasoueidan.com/demos/horizontal-portfolio-layout/js/modernizr-1.5.min.js"></script>
+    <script src="{{asset('bundles/tuser/mio.js')}}"> </script>
+
+
+
+
+
+
+{% endblock header %}

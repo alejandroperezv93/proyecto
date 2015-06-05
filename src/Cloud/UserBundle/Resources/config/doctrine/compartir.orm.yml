@@ -1,0 +1,23 @@
+Cloud\UserBundle\Entity\compartir:
+    type: entity
+    table: null
+    repositoryClass: Cloud\UserBundle\Entity\compartirRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nombre:
+            type: text
+        idUser1:
+            type: integer
+            column: id_user1
+        idFitxer:
+            type: integer
+            column: id_fitxer
+        idUser2:
+            type: integer
+            column: id_user2
+    lifecycleCallbacks: {  }

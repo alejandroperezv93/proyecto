@@ -1,0 +1,22 @@
+Cloud\UserBundle\Entity\Noticias:
+    type: entity
+    table: null
+    repositoryClass: Cloud\UserBundle\Entity\NoticiasRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        titulo:
+            type: string
+            length: '100'
+        detalle:
+            type: text
+        titutlo:
+            type: text
+        id_Categoria:
+            type: integer
+            column: id_categoria
+    lifecycleCallbacks: {  }

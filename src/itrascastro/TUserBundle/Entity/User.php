@@ -1,0 +1,430 @@
+<?php
+
+namespace itrascastro\TUserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * User
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="itrascastro\TUserBundle\Entity\UserRepository")
+ * @UniqueEntity("username", message="Username already taken")
+ * @UniqueEntity(fields="email", message="Email already taken")
+ */
+class User implements AdvancedUserInterface, \Serializable
+{
+
+
+    // ...
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\Cloud\UserBundle\Entity\Fitxer", mappedBy="user")
+     */
+    protected $fitxer;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\Cloud\UserBundle\Entity\compartir", mappedBy="user")
+     */
+    protected $compartir;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Username is empty")
+     */
+    private $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Email is empty")
+     * @Assert\Email(message="Email must be valid")
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255)
+     *
+     */
+    private $password;
+
+    /**
+     * Will not be stored in the database. It's just for store data
+     *
+     * @var string
+     *
+     * @Assert\NotBlank(message="Password is empty")
+     */
+    private $plainPassword;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="json_array")
+     */
+    private $roles = array();
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive = true;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * @return Role[] The user roles
+     */
+    public function getRoles()
+    {
+        return empty($this->roles) ? ['ROLE_USER'] : $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     * @return $this
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        $this->setPlainPassword(null);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param boolean $isActive
+     * @return $this
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Checks whether the user's account has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw an AccountExpiredException and prevent login.
+     *
+     * @return bool true if the user's account is non expired, false otherwise
+     *
+     * @see AccountExpiredException
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the user is locked.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a LockedException and prevent login.
+     *
+     * @return bool true if the user is not locked, false otherwise
+     *
+     * @see LockedException
+     */
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the user's credentials (password) has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a CredentialsExpiredException and prevent login.
+     *
+     * @return bool true if the user's credentials are non expired, false otherwise
+     *
+     * @see CredentialsExpiredException
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the user is enabled.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a DisabledException and prevent login.
+     *
+     * @return bool true if the user is enabled, false otherwise
+     *
+     * @see DisabledException
+     */
+    public function isEnabled()
+    {
+        return $this->getIsActive();
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * String representation of object
+     * @link http://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Constructs the object
+     * @link http://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     */
+    public function unserialize($serialized)
+    {
+        list($this->id, $this->username, $this->password) = unserialize($serialized);
+    }
+
+    /**
+     * Add fitxer
+     *
+     * @param \Cloud\UserBundle\Entity\Fitxer $fitxer
+     * @return User
+     */
+    public function addFitxer(\Cloud\UserBundle\Entity\Fitxer $fitxer)
+    {
+        $this->fitxer[] = $fitxer;
+
+        return $this;
+    }
+
+    /**
+     * Remove fitxer
+     *
+     * @param \Cloud\UserBundle\Entity\Fitxer $fitxer
+     */
+    public function removeNoticia(\Cloud\UserBundle\Entity\Fitxer $fitxer)
+    {
+        $this->fitxer->removeElement($fitxer);
+    }
+
+    /**
+     * Get fitxer
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFitxer()
+    {
+        return $this->fitxer;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fitxer = new \Doctrine\Common\Collections\ArrayCollection();
+
+    }
+
+    /**
+     * Remove fitxer
+     *
+     * @param \Cloud\UserBundle\Entity\Fitxer $fitxer
+     */
+    public function removeFitxer(\Cloud\UserBundle\Entity\Fitxer $fitxer)
+    {
+        $this->fitxer->removeElement($fitxer);
+    }
+
+
+
+   
+
+    /**
+     * Add compartir
+     *
+     * @param \Cloud\UserBundle\Entity\compartir $compartir
+     * @return User
+     */
+    public function addCompartir(\Cloud\UserBundle\Entity\compartir $compartir)
+    {
+        $this->compartir[] = $compartir;
+
+        return $this;
+    }
+
+    /**
+     * Remove compartir
+     *
+     * @param \Cloud\UserBundle\Entity\compartir $compartir
+     */
+    public function removeCompartir(\Cloud\UserBundle\Entity\compartir $compartir)
+    {
+        $this->compartir->removeElement($compartir);
+    }
+
+    /**
+     * Get compartir
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCompartir()
+    {
+        return $this->compartir;
+    }
+}

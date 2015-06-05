@@ -1,0 +1,146 @@
+
+
+.demo-wrapper {
+    padding: 30px;
+}
+
+.portfolio-items {
+    height: 169px;
+    margin-bottom: 30px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    position: relative;
+    white-space: nowrap;
+}
+.portfolio-items > li {
+    display: inline-block;
+    vertical-align: top;
+}
+.item {
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    height: 143px;
+    margin: 150px 20px 0;
+    opacity: 0;
+    padding: 5px;
+    position: relative;
+    top: -300px;
+    transform: rotate(-135deg);
+    transition: all 0.3s ease 0s, opacity 2s ease 0s, top 1s ease 0s;
+    width: 89px;
+}
+.item:nth-child(2n) {
+    margin-top: 100px;
+}
+.item:hover {
+    height: 129px;
+    padding: 15px;
+    margi-top: 15%;
+    transform: translateY(-68px);
+}
+.item:hover .date {
+    transform: translate3d(0px, 61px, 0px);
+}
+
+.item:hover .view {
+    height: 170px;
+}
+.item:hover .view img {
+    left: -20px;
+    top: -20px;
+    height: 39%;
+margin-top:62%;
+}
+.falldown {
+    opacity: 1;
+    top: -72%;
+    transform: rotate(0deg);
+}
+figure {
+    height: 100%;
+    width: 100%;
+}
+.view {
+    height: 190px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.view img {
+    height: 71px;
+    position: absolute;
+    transition: width 0.3s ease 0s;
+    width: 68px;
+}
+figcaption {
+    bottom: 0;
+    height: 60px;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+}
+figcaption p {
+    background-color: #f0f0f0;
+    color: #333;
+    font-family: "Arial",sans-serif;
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-language-override: normal;
+    font-size: 12px;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-synthesis: weight style;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: 25px !important;
+    margin: 5px 0;
+    padding: 0 10px;
+    text-transform: uppercase;
+    width: 100%;
+}
+figcaption span {
+    left: -100%;
+    opacity: 0;
+}
+figcaption a {
+    color: #cc320f;
+}
+.date {
+    background-color: #cc320f;
+    border-radius: 1px;
+    bottom: 30px;
+    color: #fff;
+    font-weight: bold;
+    height: 30px;
+    left: 15px;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    transition: transform 0.5s cubic-bezier(0.12, 1.6, 0.91, 0.92) 0s;
+    width: 50px;
+    z-index: 1;
+}
+@keyframes slideOut {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+    95% {
+        left: 0;
+        opacity: 0.2;
+    }
+    100% {
+        left: 0;
+        opacity: 1;
+    }
+}
+@keyframes show {
+    100% {
+        opacity: 1;
+    }
+}

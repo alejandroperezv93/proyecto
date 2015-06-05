@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{%block header %}
+<h1>Compartiendo Fichero</h1>
+    {% for entity in entities %}
+
+        {{ entity.id }}
+        {{ entity.username }}
+        {{ entity.nombre }}
+
+
+
+
+
+
+        <form class=""  action="{{ path('compartirdo') }}" method="post" novalidate="novalidate">
+
+
+
+
+
+                            <ul class="nav solo navbar-nav pull-right">
+                                <li><input class="form-control" placeholder="Username" type="text" id="username" name="username" >  </input> </li>
+                                   <input type="hidden" name="numero" value=" {{ entity.idf }}" />
+                                <input type="hidden" name="nom" value=" {{ entity.nombre }}" />
+
+                                <li><div class="form-group spaceless"><button class="btn btn-lg btn-primary btn-block "  type="submit">Iniciar Sesión</button></div>
+                                </li>
+
+
+</ul>
+        </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
